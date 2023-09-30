@@ -1,4 +1,6 @@
 import pika
+import time
+import random
 
 #define connection parameters, localhost for local and server name if running on remote server
 connection_parameters = pika.ConnectionParameters('localhost')
@@ -12,10 +14,18 @@ channel = connection.channel()
 channel.queue_declare(queue='letterbox')
 
 #publish queue to default exchange
-message = "Testing RabbitMQ using Python"
 
-channel.basic_publish(exchange='', routing_key='letterbox', body=message)
+messageId = 1
 
-print(f"sent messgae: {message}")
+while(True):
+    message = f"Testing RabbitMQ using Python. MessageId: {messageId}"
+    
+    channel.basic_publish(exchange='', routing_key='letterbox', body=message)
 
-connection.close()
+    print(f"sent messgae: {message}")
+
+    time.sleep(random.randint(1,4))
+
+    messageId+=1
+
+
