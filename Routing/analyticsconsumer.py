@@ -10,12 +10,27 @@ connection = pika.BlockingConnection(connection_parameters)
 
 channel = connection.channel()
 
-channel.exchange_declare(exchange='routing', exchange_type=ExchangeType.direct)
+################### direct exchange start ################
+
+#channel.exchange_declare(exchange='routing', exchange_type=ExchangeType.direct)
+
+#queue = channel.queue_declare(queue='', exclusive=True)
+
+#channel.queue_bind(exchange='routing', queue=queue.method.queue, routing_key='analyticsonly')
+#channel.queue_bind(exchange='routing', queue=queue.method.queue, routing_key='both')
+
+################### direct exchange end ##################
+
+
+################### topic exchange start #################
+
+channel.exchange_declare(exchange='topicexchange', exchange_type=ExchangeType.topic)
 
 queue = channel.queue_declare(queue='', exclusive=True)
 
-channel.queue_bind(exchange='routing', queue=queue.method.queue, routing_key='analyticsonly')
-channel.queue_bind(exchange='routing', queue=queue.method.queue, routing_key='both')
+channel.queue_bind(exchange='topicexchange', queue=queue.method.queue, routing_key='*.europe.*') #the * reprents only one word before or after the word europe
+
+################### topic exchange end ###################
 
 channel.basic_consume(queue=queue.method.queue, auto_ack=True, on_message_callback=on_message_received)
 
