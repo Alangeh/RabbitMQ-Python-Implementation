@@ -2,7 +2,7 @@ import pika
 from pika.exchange_type import ExchangeType
 
 def on_message_received(ch, method, properties, body):
-    print("Received new message: {body}")
+    print(f"Received new message: {body}")
 
 #define connection parameters, localhost for local and server name if running on remote server
 connection_parameters = pika.ConnectionParameters('localhost')
