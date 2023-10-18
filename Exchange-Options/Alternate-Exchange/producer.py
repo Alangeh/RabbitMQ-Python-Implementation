@@ -7,10 +7,10 @@ connection = pika.BlockingConnection(connection_parameters)
 
 channel = connection.channel()
 
-channel.exchange_declare(queue='altExchange', exchange_type=ExchangeType.fanout)
+channel.exchange_declare(exchange='altExchange', exchange_type=ExchangeType.fanout)
 
 channel.exchange_declare(
-    queue='mainexchange',
+    exchange='mainexchange',
     exchange_type=ExchangeType.direct,
     arguments={'alternate-exchange': 'altExchange'}
 )
