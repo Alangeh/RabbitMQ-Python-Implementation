@@ -5,6 +5,7 @@ def on_message_received(ch, method, properties, body):
 
     if(method.deliver_tage % 5 == 0):
         ch.basic_ask(delivery_tag=method.delivery_tag, multiple=False)
+        #ch.basic_nask(delivery_tag=method.delivery_tag, requeue=True, multiple=False)
 
     print(f'received message: {body}')
 
